@@ -1,4 +1,4 @@
-resolver: lts-14.27
+#resolver: lts-14.27
 
 packages: []
 allow-newer: true
@@ -6,4 +6,4 @@ allow-newer: true
 extra-deps:
   - hflags-0.4.3
 
-system-ghc: true
+system-ghc: false

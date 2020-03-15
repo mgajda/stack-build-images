@@ -44,6 +44,12 @@ RUN  stack install alex
 RUN  stack install happy
 RUN  stack install hspec-discover
 RUN  stack install json-autotype
+RUN  stack haddock haskell-src-exts
+RUN  stack haddock servant-client
+RUN  stack haddock shake
+RUN  stack haddock hspec
+RUN  stack haddock hunit
+RUN  stack haddock QuickCheck
 ENV  PATH=/root/.local/bin:/root/.cabal/bin:/opt/ghc/$GHC_VER/bin:/opt/cabal/$CABAL_VER/bin:$PATH
 RUN  stack          --version
 RUN  stack exec -- ghc   --version

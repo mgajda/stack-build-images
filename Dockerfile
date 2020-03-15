@@ -5,8 +5,11 @@ RUN     apt-get update \
         apt-get install -y software-properties-common \
                            curl wget jq \
                            pkg-config netbase git \
-                           zlib1g-dev awscli \
-                           g++ gcc libc6-dev libffi-dev libgmp-dev make xz-utils zlib1g-dev git gnupg \
+                           zlib1g-dev awscli make \
+                           g++ gcc \
+                           libc6-dev libffi-dev libgmp-dev \
+                           xz-utils zlib1g-dev git gnupg \
+                           libtinfo-dev \
                            libc6-pic apt-utils locales netbase \
                         --no-install-recommends \
      && apt-get clean \

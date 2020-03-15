@@ -5,5 +5,7 @@ allow-newer: true
 
 extra-deps:
   - hflags-0.4.3
+  - hashable-1.2.7.0@sha256:03b6836ca9cd3ad0e5a2f3cce989b001dd0e05f306a873db3196037adb30e0a4,5215
+  - lens-4.17.1@sha256:7b7900cd621be02888e311f77af05a1770216d28be708c386c3ada64283208ae,15822
 
 system-ghc: false

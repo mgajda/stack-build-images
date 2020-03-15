@@ -10,6 +10,7 @@ RUN     apt-get update \
                            libc6-dev libffi-dev libgmp-dev \
                            xz-utils zlib1g-dev git gnupg \
                            libtinfo-dev \
+                           alex happy \
                            libc6-pic apt-utils locales netbase \
                         --no-install-recommends \
      && apt-get clean \
@@ -36,20 +37,15 @@ ENV     LANG=en_SG.UTF-8
 RUN     curl -L https://github.com/commercialhaskell/stack/releases/download/v2.1.3/stack-2.1.3-linux-x86_64-static.tar.gz | tar xz --wildcards --strip-components=1 -C /usr/local/bin '*/stack'
 COPY stack-${LTS}.yaml /root/.stack/global-project/stack.yaml
 #RUN  echo "resolver: lts-${LTS}" >>/root/.stack/global-project/stack.yaml
-RUN  stack install homplexity
-RUN  stack install shake
+RUN  stack install homplexity --haddock --test
+RUN  stack install shake --haddock --test
 RUN  stack install hlint
-RUN  stack install hpack
-RUN  stack install alex
-RUN  stack install happy
-RUN  stack install hspec-discover
-RUN  stack install json-autotype
-RUN  stack haddock haskell-src-exts
-RUN  stack haddock servant-client
-RUN  stack haddock shake
-RUN  stack haddock hspec
-RUN  stack haddock hunit
-RUN  stack haddock QuickCheck
+RUN  stack install hspec-discover --haddock --test
+RUN  stack build aeson --haddock --test
+RUN  stack build servant-client --haddock --test
+RUN  stack build hspec --haddock --test
+RUN  stack build hunit --haddock --test
+RUN  stack build QuickCheck --haddock --test
 ENV  PATH=/root/.local/bin:/root/.cabal/bin:/opt/ghc/$GHC_VER/bin:/opt/cabal/$CABAL_VER/bin:$PATH
 RUN  stack          --version
 RUN  stack exec -- ghc   --version

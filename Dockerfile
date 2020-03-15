@@ -40,10 +40,10 @@ RUN  stack install hpack
 RUN  stack install alex
 RUN  stack install happy
 RUN  stack install hspec-discover
+RUN  stack install json-autotype
 ENV  PATH=/root/.local/bin:/root/.cabal/bin:/opt/ghc/$GHC_VER/bin:/opt/cabal/$CABAL_VER/bin:$PATH
 RUN  stack          --version
 RUN  stack exec -- ghc   --version
-RUN  stack exec -- cabal --version
 RUN  stack exec -- hlint --version
 RUN  stack exec -- homplexity-cli --version=True
 

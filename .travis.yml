@@ -9,15 +9,31 @@ matrix:
   include:
   - env:
      - LTS=15.3
+  - env:
      - LTS=14.27
+  - env:
      - LTS=13.19
+  - env:
      - LTS=13.11
+  - env:
      - LTS=12.26
+  - env:
      - LTS=11.22
+  - env:
      - LTS=9.21
   allow_failures:
     - env:
-      - LTS=9.21
+      - LTS=15.3
+    - env:
+       - LTS=13.19
+    - env:
+       - LTS=13.11
+    - env:
+       - LTS=12.26
+    - env:
+       - LTS=11.22
+    - env:
+       - LTS=9.21
 
 install:
   - docker --version

@@ -1,0 +1,9 @@
+resolver: lts-11.22
+
+packages: []
+allow-newer: true
+
+extra-deps:
+  - hflags-0.4.3
+
+system-ghc: false

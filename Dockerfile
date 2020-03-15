@@ -44,7 +44,7 @@ RUN  stack install hspec-discover --haddock --test
 RUN  stack build aeson --haddock --test
 RUN  stack build servant-client --haddock --test
 RUN  stack build hspec --haddock --test
-RUN  stack build hunit --haddock --test
+RUN  stack build HUnit --haddock --test
 RUN  stack build QuickCheck --haddock --test
 ENV  PATH=/root/.local/bin:/root/.cabal/bin:/opt/ghc/$GHC_VER/bin:/opt/cabal/$CABAL_VER/bin:$PATH
 RUN  stack          --version

@@ -3,18 +3,16 @@ RUN     apt-get update \
      && apt-get upgrade    -y \
      && DEBIAN_FRONTEND=noninteractive \
         apt-get install -y software-properties-common \
-                           curl wget alex happy jq \
+                           curl wget jq \
                            pkg-config netbase git \
                            zlib1g-dev awscli \
                            g++ gcc libc6-dev libffi-dev libgmp-dev make xz-utils zlib1g-dev git gnupg \
-                           libc6-pic apt-utils locales netbase happy alex hlint hpack \
+                           libc6-pic apt-utils locales netbase \
                         --no-install-recommends \
      && apt-get clean \
      && rm -rf /var/lib/apt/lists
+ARG     LTS=14.27
 #                           ruby ruby-bundler \
-RUN     add-apt-repository -y ppa:hvr/ghc \
-     && apt-get clean \
-     && rm -rf /var/lib/apt/lists
 RUN     mkdir -p $HOME/.local/bin
 ENV     SILENCE_ROOT_WARNING=1
 ENV     DEBIAN_FRONTEND=noninteractive
@@ -33,32 +31,19 @@ RUN     locale-gen en_SG.UTF-8 en_US.UTF-8
 ENV     LC_ALL=en_SG.UTF-8
 ENV     LANG=en_SG.UTF-8
 RUN     curl -L https://github.com/commercialhaskell/stack/releases/download/v2.1.3/stack-2.1.3-linux-x86_64-static.tar.gz | tar xz --wildcards --strip-components=1 -C /usr/local/bin '*/stack'
-
-FROM haskell-prep AS haskell-tools
 COPY stack.yaml /root/.stack/global-project/stack.yaml
+RUN  echo "resolver: lts-${LTS}" >>/root/.stack/global-project/stack.yaml
 RUN  stack install homplexity
-RUN  /root/.local/bin/homplexity-cli --version=True .
-
-FROM haskell-prep AS haskell-build
-ARG     GHC_VER=8.6.5
-ARG     CABAL_VER=2.4
-COPY    --from=haskell-tools /root/.local/bin/homplexity-cli /root/.local/bin/homplexity-cli
-# In case you wondered:
-ENV     PATH=/root/.local/bin:/root/.cabal/bin:/opt/ghc/$GHC_VER/bin:/opt/cabal/$CABAL_VER/bin:$PATH
-#ENV     PATH=/root/.local/bin:/root/.cabal/bin:/opt/ghc/$GHC_VER/bin:$PATH
-RUN     apt-get update \
-     && apt-get install -y ghc-$GHC_VER ghc-$GHC_VER-dyn ghc-$GHC_VER-prof cabal-install-$CABAL_VER --no-install-recommends \
-     && apt-get clean \
-     && rm -rf /var/lib/apt/lists
-RUN     cabal v1-update \
-     && cabal v1-install hspec-discover alex happy hlint hpack --allow-newer
-     #&& rm -rf /root/.cabal/packages \
-RUN     stack          --version
-RUN     ghc            --version
-RUN     cabal          --version
-#RUN     ruby           --version || true
-RUN     hlint          --version
-RUN     homplexity-cli --version=True .
-ENV     HC=ghc-${GHC_VER}
-ENV     HCPKG=ghc-pkg-${GHC_VER}
+RUN  stack install shake
+RUN  stack install hlint
+RUN  stack install hpack
+RUN  stack install alex
+RUN  stack install happy
+RUN  stack install hspec-discover
+ENV  PATH=/root/.local/bin:/root/.cabal/bin:/opt/ghc/$GHC_VER/bin:/opt/cabal/$CABAL_VER/bin:$PATH
+RUN  stack          --version
+RUN  stack exec -- ghc   --version
+RUN  stack exec -- cabal --version
+RUN  stack exec -- hlint --version
+RUN  stack exec -- homplexity-cli --version=True
 

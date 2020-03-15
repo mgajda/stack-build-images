@@ -1,5 +1,4 @@
 language: minimal
-sudo: required
 services:
   - docker
 
@@ -9,51 +8,26 @@ git:
 matrix:
   include:
   - env:
-     - GHC_VER=head
-     - CABAL_VER=3.2
-  - env:
-     - GHC_VER=8.10.1
-     - CABAL_VER=3.2
-  - env:
-     - GHC_VER=8.8.2
-     - CABAL_VER=3.0
-  - env:
-     - GHC_VER=8.6.5
-     - CABAL_VER=2.4
-  - env:
-     - GHC_VER=8.4.4
-     - CABAL_VER=2.4
-  - env:
-     - GHC_VER=8.2.2
-     - CABAL_VER=2.4
-  - env:
-     - GHC_VER=8.0.2
-     - CABAL_VER=2.4
-  - env:
-     - GHC_VER=7.10.3
-     - CABAL_VER=2.4
-  - env:
-     - GHC_VER=7.8.4
-     - CABAL_VER=2.4
-  # NOTE: For GHC head, one needs to build hlint, pier with another compiler version.
+     - LTS=15.3
+     - LTS=14.27
+     - LTS=13.19
+     - LTS=13.11
+     - LTS=12.26
+     - LTS=11.22
+     - LTS=9.21
   allow_failures:
     - env:
-       - GHC_VER=head
-       - CABAL_VER=3.2
-    - env:
-       - GHC_VER=7.10.3
-       - CABAL_VER=2.4
-    - env:
-       - GHC_VER=7.8.4
-       - CABAL_VER=2.4
+      - LTS=9.21
 
 install:
   - docker --version
 
 script:
-  - docker build . -f Dockerfile --build-arg GHC_VER=${GHC_VER} --build-arg CABAL_VER=${CABAL_VER} --tag migamake/haskell-build:$(echo ${GHC_VER}|cut -f-2 -d.)
+  - docker build . -f Dockerfile --build-arg LTS=${LTS} --tag migamake/stack-build:${LTS}
       || exit 1;
+
+after_script:
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
       echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin;
-      docker push migamake/haskell-build:$(echo ${GHC_VER}|cut -f-2 -d.);
+      docker push migamake/stack-build:$(echo ${LTS}|cut -f-2 -d.);
     fi;

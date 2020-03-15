@@ -23,11 +23,11 @@ install:
   - docker --version
 
 script:
-  - docker build . -f Dockerfile --build-arg LTS=${LTS} --tag migamake/stack-build:${LTS}
+  - docker build . -f Dockerfile --build-arg LTS=${LTS} --tag migamake/stack-build-image:${LTS}
       || exit 1;
 
 after_script:
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
       echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin;
-      docker push migamake/stack-build:$(echo ${LTS}|cut -f-2 -d.);
+      docker push migamake/stack-build-image:${LTS};
     fi;

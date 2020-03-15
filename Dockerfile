@@ -11,7 +11,7 @@ RUN     apt-get update \
                         --no-install-recommends \
      && apt-get clean \
      && rm -rf /var/lib/apt/lists
-ARG     LTS=14.27
+ARG     LTS=15.3
 #                           ruby ruby-bundler \
 RUN     mkdir -p $HOME/.local/bin
 ENV     SILENCE_ROOT_WARNING=1

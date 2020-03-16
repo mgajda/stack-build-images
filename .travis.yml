@@ -20,6 +20,8 @@ matrix:
   allow_failures:
     - env:
       - LTS=15.3
+    - env:
+       - LTS=12.26
 
 install:
   - docker --version

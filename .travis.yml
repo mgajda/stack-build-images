@@ -27,7 +27,7 @@ install:
   - docker --version
 
 script:
-  - travis_wait 30 docker build . -f Dockerfile --build-arg LTS=${LTS} --tag migamake/stack-build-image:${LTS}
+  - docker build . -f Dockerfile --build-arg LTS=${LTS} --tag migamake/stack-build-image:${LTS}
       || exit 1;
 
 after_script:

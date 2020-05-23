@@ -5,5 +5,6 @@ allow-newer: true
 
 extra-deps:
   - hflags-0.4.3
+  - hlint-2.2.11
 
 system-ghc: false

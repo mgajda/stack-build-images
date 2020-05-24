@@ -17,13 +17,8 @@ matrix:
      - LTS=13.19
   - env:
      - LTS=13.11
-  - env:
-     - LTS=12.26
-  allow_failures:
-    - env:
-      - LTS=15.13
-    - env:
-       - LTS=12.26
+  #allow_failures:
+
 
 install:
   - docker --version

@@ -8,6 +8,8 @@ git:
 matrix:
   include:
   - env:
+     - LTS=15.13
+  - env:
      - LTS=15.3
   - env:
      - LTS=14.27
@@ -19,7 +21,7 @@ matrix:
      - LTS=12.26
   allow_failures:
     - env:
-      - LTS=15.3
+      - LTS=15.13
     - env:
        - LTS=12.26
 

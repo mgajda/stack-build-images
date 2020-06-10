@@ -8,6 +8,10 @@ git:
 matrix:
   include:
   - env:
+     - LTS=16.0
+  - env:
+     - LTS=15.16
+  - env:
      - LTS=15.13
   - env:
      - LTS=15.3
